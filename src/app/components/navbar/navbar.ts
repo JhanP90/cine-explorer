@@ -1,0 +1,61 @@
+// navbar.ts
+// Navbar con buscador reactivo que usa debounce
+import { Component, inject } from '@angular/core';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+// FormControl es un control de formulario reactivo
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+// Operadores RxJS para el buscador
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { FavoritesService } from '../../services/favorites';
+import { ThemeService } from '../../services/theme.service';
+
+@Component({
+  selector: 'app-navbar',
+  standalone: true,
+  // ReactiveFormsModule es necesario para usar [formControl]
+  imports: [RouterLink, RouterLinkActive, ReactiveFormsModule],
+  templateUrl: './navbar.html',
+  styleUrls: ['./navbar.scss']
+})
+export class Navbar {
+  private favoritesService = inject(FavoritesService);
+  private router = inject(Router);
+  private themeService = inject(ThemeService);
+
+  // FormControl para el input de búsqueda
+  // Cada vez que el usuario escribe, emite el nuevo valor como Observable
+  searchControl = new FormControl('');
+
+  get cantidadFavoritas(): number {
+    return this.favoritesService.obtenerCantidad();
+  }
+
+  // Agregar en navbar.ts
+
+get temaActual(): string {
+  return this.themeService.obtenerTema();
+}
+
+toggleTema(): void {
+  this.themeService.toggle();
+}
+
+  constructor() {
+    // valueChanges es un Observable que emite cada vez que el input cambia
+    this.searchControl.valueChanges.pipe(
+      // debounceTime(300): espera 300ms después del último tecleo
+      // Si el usuario sigue escribiendo, reinicia el timer
+      debounceTime(300),
+      // distinctUntilChanged: solo emite si el valor es diferente al anterior
+      // Evita peticiones duplicadas si el usuario borra y reescribe lo mismo
+      distinctUntilChanged(),
+      // filter: solo emite si el texto tiene 2+ caracteres
+      // Evita buscar con textos muy cortos
+      filter(term => !!term && term.length >= 2)
+    ).subscribe(term => {
+      // Navegar a la página de resultados con el término como query param
+      this.router.navigate(['/search'], { queryParams: { q: term } });
+    });
+  }
+}
+
