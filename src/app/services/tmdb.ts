@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 // Importar las interfaces que creamos en el capítulo 1
 import { Movie, MovieResponse, MovieDetail, Credits, Genre } from '../models/movie';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({ providedIn: 'root' })
 export class TmdbService {
@@ -14,9 +16,9 @@ export class TmdbService {
   private http = inject(HttpClient);
 
   // URL base de la API de TMDB
-  private apiUrl = 'https://api.themoviedb.org/3';
+  private apiUrl = environment.tmdbBaseUrl;
   // API key (después la moveremos a environment.ts en el capítulo 12)
-  private apiKey = 'cd81a482b7663ee9dc170485ef4985fb';  // ← Reemplazar con tu key real
+  private apiKey = environment.tmdbApiKey;
 
   // Obtener películas populares
   // Retorna un Observable<MovieResponse> — se suscribe desde el componente

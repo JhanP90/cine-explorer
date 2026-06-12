@@ -1,0 +1,80 @@
+// styles.scss
+// Estilos globales de CineExplorer
+
+// ===== VARIABLES CSS (TEMA CLARO) =====
+// :root aplica las variables a toda la página
+:root {
+  // Colores principales
+  --color-primario: #0d6efd;       // azul Bootstrap
+  --color-secundario: #6c757d;     // gris
+
+  // Fondos
+  --bg-primary: #ffffff;           // fondo principal
+  --bg-secondary: #f8f9fa;         // fondo secundario (secciones)
+  --bg-card: #ffffff;              // fondo de tarjetas
+  --bg-navbar: #212529;            // fondo del navbar
+
+  // Texto
+  --text-primary: #212529;         // texto principal (casi negro)
+  --text-secondary: #6c757d;       // texto secundario (gris)
+
+  // Sombras
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+  // Bordes
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+}
+
+// ===== TEMA OSCURO =====
+// Se activa cuando el <html> tiene data-theme="dark"
+// (lo controla ThemeService del capítulo 10)
+[data-bs-theme="dark"] {
+  --bg-primary: #121212;           // fondo oscuro
+  --bg-secondary: #1e1e1e;        // fondo secundario oscuro
+  --bg-card: #2d2d2d;             // tarjetas oscuras
+  --bg-navbar: #0d0d0d;           // navbar más oscuro
+  --text-primary: #e0e0e0;        // texto claro
+  --text-secondary: #aaaaaa;      // texto secundario claro
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+// ===== ESTILOS BASE =====
+body {
+  // Usar las variables CSS en lugar de colores hardcodeados
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  // Transición suave al cambiar de tema
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Sobreescribir estilos de Bootstrap para que usen nuestras variables
+.card {
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-md);
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.text-muted {
+  color: var(--text-secondary) !important;
+}
+
+// ===== ACCESIBILIDAD =====
+// Desactivar animaciones para usuarios que lo prefieran
+// (personas con epilepsia, vértigo, etc.)
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

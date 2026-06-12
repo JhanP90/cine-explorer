@@ -1,25 +1,34 @@
-// movie-card.component.scss
-// Estilos que SOLO afectan a este componente (encapsulación de Angular)
-
-// Efecto hover en la tarjeta
-.card {
-  // Transición suave al hacer hover
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  // cursor pointer para indicar que es clickeable
-  cursor: pointer;
-
-  &:hover {
-    // Elevar la tarjeta ligeramente al pasar el mouse
-    transform: translateY(-4px);
-    // Sombra más pronunciada
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+// movie-card.scss
+// Animación de entrada: las tarjetas aparecen desde abajo con fade
+@keyframes fadeInUp {
+  from {
+    opacity: 0;                    // invisible
+    transform: translateY(20px);   // 20px abajo de su posición final
+  }
+  to {
+    opacity: 1;                    // visible
+    transform: translateY(0);      // posición final
   }
 }
 
-// Limitar la altura de la imagen para consistencia
-.card-img-top {
-  height: 400px;
-  // object-fit: cover recorta la imagen para llenar el espacio sin deformarla
-  object-fit: cover;
+// :host es el elemento raíz del componente (el <app-movie-card> en el DOM)
+:host {
+  // Aplicar la animación al aparecer
+  animation: fadeInUp 0.4s ease-out;
 }
 
+.card {
+  cursor: pointer;
+  // Transición suave para hover
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.card-img-top {
+  height: 400px;
+  object-fit: cover;  // recorta sin deformar
+}
